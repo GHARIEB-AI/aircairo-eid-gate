@@ -1209,36 +1209,42 @@ function drawCard(name, frame=0){
     ctx.drawImage(logoImg, 60, 70, lw, lh);
   }
 
-  // EID MUBARAK 1446 H badge top-right
+  // "كل عام وأنتم بخير" — integrated into the background design (no chip/border)
+  // Placed in the upper area below the logo, in elegant Arabic script.
   ctx.save();
-  const badgeText = 'EID MUBARAK · 1446 H';
-  ctx.font = '700 18px "Poppins", sans-serif';
-  const bw = ctx.measureText(badgeText).width + 36;
-  const bh = 36;
-  const bx = W - bw - 60, by = 90;
-  ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  ctx.strokeStyle = 'rgba(255,213,138,0.5)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  const br = bh/2;
-  ctx.moveTo(bx+br, by);
-  ctx.lineTo(bx+bw-br, by);
-  ctx.arc(bx+bw-br, by+br, br, -Math.PI/2, Math.PI/2);
-  ctx.lineTo(bx+br, by+bh);
-  ctx.arc(bx+br, by+br, br, Math.PI/2, -Math.PI/2);
-  ctx.closePath();
-  ctx.fill(); ctx.stroke();
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#FFD58A';
-  ctx.fillText(badgeText, bx + bw/2, by + 24);
+  ctx.font = '700 38px "Amiri", "Cairo", serif';
+  // subtle gold gradient text fill so it blends with the sky/glow
+  const gradText = ctx.createLinearGradient(W/2 - 200, 165, W/2 + 200, 215);
+  gradText.addColorStop(0, '#FFD58A');
+  gradText.addColorStop(0.5, '#FFE8B8');
+  gradText.addColorStop(1, '#FFB066');
+  ctx.fillStyle = gradText;
+  ctx.shadowColor = 'rgba(0,0,0,0.45)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 4;
+  ctx.fillText('كل عام وأنتم بخير', W/2, 200);
+  ctx.shadowBlur = 0;
+  // delicate decorative flourish underline
+  ctx.strokeStyle = 'rgba(255,213,138,0.45)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 110, 215);
+  ctx.bezierCurveTo(W/2 - 50, 222, W/2 + 50, 222, W/2 + 110, 215);
+  ctx.stroke();
+  // tiny ornament dots
+  ctx.fillStyle = 'rgba(255,213,138,0.65)';
+  ctx.beginPath(); ctx.arc(W/2 - 120, 215, 2.5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W/2 + 120, 215, 2.5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W/2, 226, 2, 0, Math.PI*2); ctx.fill();
   ctx.restore();
 
   // CENTRAL Arabic Eid script (device_manager_snap) — main visual
   if (scriptImg.complete && scriptImg.naturalWidth){
-    const sh = 440;
+    const sh = 410;
     const sw = sh * (scriptImg.naturalWidth / scriptImg.naturalHeight);
     const sx = W/2 - sw/2;
-    const sy = 230 + Math.sin(frame*0.12) * 6;
+    const sy = 270 + Math.sin(frame*0.12) * 6;
     ctx.save();
     ctx.shadowColor = 'rgba(0,0,0,0.55)';
     ctx.shadowBlur = 40;
@@ -1310,12 +1316,9 @@ function drawCard(name, frame=0){
   // Bottom tagline
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,213,138,0.95)';
-  ctx.font = '700 24px "Cairo", sans-serif';
-  ctx.fillText('كل عام وأنتم بألف خير', W/2, H - 70);
-  ctx.fillStyle = 'rgba(255,213,138,0.6)';
-  ctx.font = '600 16px "Poppins", sans-serif';
-  ctx.fillText('AIR CAIRO FAMILY', W/2, H - 42);
+  ctx.fillStyle = 'rgba(255,213,138,0.85)';
+  ctx.font = '700 22px "Cairo", sans-serif';
+  ctx.fillText('AIR CAIRO FAMILY · 1446 H', W/2, H - 55);
   ctx.restore();
 
   // Decorative frame
